@@ -6,7 +6,7 @@ A modern, responsive React web application for managing shared expenses among gr
 
 **Frontend**: [https://expense-sharing-frontend-orpin.vercel.app](https://expense-sharing-frontend-orpin.vercel.app)
 
-**Backend API**: [https://web-production-6af04.up.railway.app](https://web-production-6af04.up.railway.app)
+**Backend API (Endpoints can be checked here)**: [https://web-production-6af04.up.railway.app/api/auth/test](https://web-production-6af04.up.railway.app/api/auth/test)
 
 ## 📋 Table of Contents
 
