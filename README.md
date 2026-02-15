@@ -400,35 +400,7 @@ Clear visualization of who owes whom with net balance calculations.
 ### Profile
 User profile with account information and activity summary.
 
-## ⚠️ Known Issues
-
-### Current Limitations
-
-1. **Token Storage**
-   - Tokens stored in localStorage (vulnerable to XSS)
-   - **Recommendation**: Move to httpOnly cookies in production
-
-2. **No Refresh Token**
-   - Users must login again after 24 hours
-   - **Recommendation**: Implement refresh token mechanism
-
-3. **No Offline Support**
-   - Requires internet connection
-   - **Recommendation**: Add PWA support with service workers
-
-4. **No Image Upload**
-   - Cannot upload profile pictures or expense receipts
-   - **Recommendation**: Add image upload with file validation
-
-5. **Limited Mobile Navigation**
-   - No hamburger menu on mobile
-   - **Recommendation**: Add responsive mobile menu
-
-6. **No Dark Mode**
-   - Only light theme available
-   - **Recommendation**: Add theme toggle
-
-### Browser Compatibility
+## Browser Compatibility
 
 **Tested and Working:**
 - ✅ Chrome 90+
@@ -436,33 +408,12 @@ User profile with account information and activity summary.
 - ✅ Safari 14+
 - ✅ Edge 90+
 
-**Known Issues:**
-- ⚠️ Internet Explorer not supported (deprecated browser)
-
 ## 🚧 Future Enhancements
 
-### High Priority
-- [ ] Add refresh token mechanism
-- [ ] Implement PWA (Progressive Web App) features
-- [ ] Add expense editing and deletion
-- [ ] Add expense categories and tags
-- [ ] Implement search and filtering
-- [ ] Add expense comments/notes
-
-### Medium Priority
+- [ ] Add Different Currencies
 - [ ] Dark mode theme
-- [ ] Profile picture upload
 - [ ] Receipt/image upload for expenses
-- [ ] Email notifications
-- [ ] Export data (CSV, PDF)
-- [ ] Recurring expenses
-
-### Low Priority
-- [ ] Multi-language support (i18n)
 - [ ] Currency conversion
-- [ ] Advanced analytics dashboard
-- [ ] Social sharing features
-- [ ] Group chat integration
 
 ## 🐛 Troubleshooting
 
@@ -533,7 +484,6 @@ This project is part of an educational assignment and is open for learning purpo
 **Arrush Tandon**
 - GitHub: [@ArrushTandon](https://github.com/ArrushTandon)
 - LinkedIn: [Arrush Tandon](https://www.linkedin.com/in/arrush-tandon/)
-- Email: [Contact Me](https://formspree.io/f/maqwzvby)
 
 ## 🙏 Acknowledgments
 
