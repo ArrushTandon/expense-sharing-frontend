@@ -1,25 +1,112 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+
+// Pages
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import DashboardPage from './pages/DashboardPage';
+import GroupsPage from './pages/GroupsPage';
+import CreateGroupPage from './pages/CreateGroupPage';
+import GroupDetailPage from './pages/GroupDetailPage';
+import CreateExpensePage from './pages/CreateExpensePage';
+import BalancesPage from './pages/BalancesPage';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <Router>
+            <AuthProvider>
+                <Routes>
+                    {/* Public Routes */}
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
+
+                    {/* Protected Routes */}
+                    <Route
+                        path="/dashboard"
+                        element={
+                            <ProtectedRoute>
+                                <DashboardPage />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/groups"
+                        element={
+                            <ProtectedRoute>
+                                <GroupsPage />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/groups/new"
+                        element={
+                            <ProtectedRoute>
+                                <CreateGroupPage />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/groups/:groupId"
+                        element={
+                            <ProtectedRoute>
+                                <GroupDetailPage />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/groups/:groupId/expenses/new"
+                        element={
+                            <ProtectedRoute>
+                                <CreateExpensePage />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/balances"
+                        element={
+                            <ProtectedRoute>
+                                <BalancesPage />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/profile"
+                        element={
+                            <ProtectedRoute>
+                                <ProfilePage />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    {/* Redirect root to dashboard */}
+                    <Route
+                        path="/"
+                        element={<Navigate to="/dashboard" replace />}
+                    />
+
+                    {/* 404 - Route not found */}
+                    <Route
+                        path="*"
+                        element={
+                            <div style={{ textAlign: 'center', marginTop: '50px' }}>
+                                <h1>404 - Page Not Found</h1>
+                                <a href="/dashboard">Go to Dashboard</a>
+                            </div>
+                        }
+                    />
+                </Routes>
+            </AuthProvider>
+        </Router>
+    );
 }
 
 export default App;
