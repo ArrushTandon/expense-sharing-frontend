@@ -167,15 +167,5 @@ const styles = {
     },
 };
 
-// Show hamburger button on mobile
-const styleSheet = document.styleSheets[0];
-const mobileRule = `
-  @media (max-width: 768px) {
-    .show-mobile-only {
-      display: block !important;
-    }
-  }
-`;
-styleSheet.insertRule(mobileRule, styleSheet.cssRules.length);
 
 export default MobileMenu;

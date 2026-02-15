@@ -431,14 +431,5 @@ const styles = {
     },
 };
 
-// Responsive adjustments
-const mediaQuery = window.matchMedia('(max-width: 768px)');
-if (mediaQuery.matches) {
-    styles.header.flexDirection = 'column';
-    styles.header.alignItems = 'flex-start';
-    styles.balanceGrid.gridTemplateColumns = '1fr';
-    styles.groupGrid.gridTemplateColumns = '1fr';
-    styles.actionGrid.gridTemplateColumns = '1fr';
-}
 
 export default DashboardPage;

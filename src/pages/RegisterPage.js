@@ -310,10 +310,5 @@ const styles = {
     },
 };
 
-// Responsive styles
-if (window.innerWidth <= 768) {
-    styles.card.padding = '30px 20px';
-    styles.card.maxWidth = '100%';
-}
 
 export default RegisterPage;

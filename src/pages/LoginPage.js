@@ -217,17 +217,4 @@ const styles = {
     },
 };
 
-// Add global styles for input focus
-const styleSheet = document.styleSheets[0];
-const inputFocusRule = `
-  input:focus {
-    border-color: #007bff !important;
-  }
-  input:disabled {
-    background-color: #f5f5f5;
-    cursor: not-allowed;
-  }
-`;
-styleSheet.insertRule(inputFocusRule, styleSheet.cssRules.length);
-
 export default LoginPage;
