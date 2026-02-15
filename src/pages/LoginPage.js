@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { authService } from '../api/authService';
+import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorAlert from '../components/ErrorAlert';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -18,19 +20,16 @@ const LoginPage = () => {
         setLoading(true);
 
         try {
-            // Security: Client-side validation
             if (!email || !password) {
-                throw new Error('Email and password are required');
+                throw new Error('Please enter both email and password');
             }
 
             const response = await authService.login({ email, password });
 
-            // Security: Verify response has required fields
             if (!response.token || !response.userId) {
-                throw new Error('Invalid server response');
+                throw new Error('Invalid response from server');
             }
 
-            // Store token and user data
             const success = login(response.token, {
                 id: response.userId,
                 email: response.email,
@@ -44,27 +43,36 @@ const LoginPage = () => {
             }
         } catch (err) {
             console.error('Login error:', err);
-            setError(err.message || 'Login failed. Please try again.');
+            setError(err.message || 'Login failed. Please check your credentials.');
         } finally {
             setLoading(false);
         }
     };
 
+    if (loading) {
+        return (
+            <div style={styles.container}>
+                <LoadingSpinner message="Logging you in..." />
+            </div>
+        );
+    }
+
     return (
         <div style={styles.container}>
             <div style={styles.card}>
-                <h2 style={styles.title}>Expense Sharing App</h2>
-                <h3 style={styles.subtitle}>Login</h3>
+                <div style={styles.logoSection}>
+                    <div style={styles.logo}>💰</div>
+                    <h2 style={styles.appName}>Expense Sharing</h2>
+                    <p style={styles.tagline}>Split bills, not friendships</p>
+                </div>
 
-                {error && (
-                    <div style={styles.error}>
-                        {error}
-                    </div>
-                )}
+                <h3 style={styles.formTitle}>Welcome Back</h3>
+
+                <ErrorAlert error={error} onClose={() => setError('')} />
 
                 <form onSubmit={handleSubmit} style={styles.form}>
                     <div style={styles.formGroup}>
-                        <label style={styles.label}>Email</label>
+                        <label style={styles.label}>Email Address</label>
                         <input
                             type="email"
                             value={email}
@@ -73,7 +81,6 @@ const LoginPage = () => {
                             style={styles.input}
                             required
                             disabled={loading}
-                            // Security: Prevent autocomplete for sensitive fields
                             autoComplete="email"
                         />
                     </div>
@@ -88,7 +95,6 @@ const LoginPage = () => {
                             style={styles.input}
                             required
                             disabled={loading}
-                            // Security: Prevent autocomplete
                             autoComplete="current-password"
                         />
                     </div>
@@ -97,14 +103,21 @@ const LoginPage = () => {
                         type="submit"
                         style={styles.button}
                         disabled={loading}
+                        onMouseEnter={(e) => e.target.style.backgroundColor = '#0056b3'}
+                        onMouseLeave={(e) => e.target.style.backgroundColor = '#007bff'}
                     >
-                        {loading ? 'Logging in...' : 'Login'}
+                        {loading ? 'Signing in...' : 'Sign In'}
                     </button>
                 </form>
 
-                <p style={styles.link}>
-                    Don't have an account? <Link to="/register">Register here</Link>
-                </p>
+                <div style={styles.footer}>
+                    <p style={styles.footerText}>
+                        Don't have an account?{' '}
+                        <Link to="/register" style={styles.link}>
+                            Create one now
+                        </Link>
+                    </p>
+                </div>
             </div>
         </div>
     );
@@ -116,34 +129,41 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '100vh',
-        backgroundColor: '#f5f5f5',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        padding: '20px',
     },
     card: {
         backgroundColor: 'white',
         padding: '40px',
-        borderRadius: '8px',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+        borderRadius: '12px',
+        boxShadow: '0 10px 40px rgba(0,0,0,0.2)',
         width: '100%',
-        maxWidth: '400px',
+        maxWidth: '420px',
     },
-    title: {
+    logoSection: {
         textAlign: 'center',
-        color: '#333',
+        marginBottom: '30px',
+    },
+    logo: {
+        fontSize: '48px',
         marginBottom: '10px',
     },
-    subtitle: {
-        textAlign: 'center',
-        color: '#666',
-        marginBottom: '30px',
-        fontWeight: 'normal',
+    appName: {
+        margin: '10px 0 5px 0',
+        color: '#333',
+        fontSize: '24px',
     },
-    error: {
-        backgroundColor: '#fee',
-        color: '#c33',
-        padding: '10px',
-        borderRadius: '4px',
-        marginBottom: '20px',
-        border: '1px solid #fcc',
+    tagline: {
+        margin: 0,
+        color: '#666',
+        fontSize: '14px',
+    },
+    formTitle: {
+        textAlign: 'center',
+        color: '#333',
+        marginBottom: '25px',
+        fontSize: '20px',
+        fontWeight: '500',
     },
     form: {
         display: 'flex',
@@ -154,33 +174,60 @@ const styles = {
     },
     label: {
         display: 'block',
-        marginBottom: '5px',
+        marginBottom: '8px',
         color: '#333',
         fontWeight: '500',
+        fontSize: '14px',
     },
     input: {
         width: '100%',
-        padding: '10px',
-        border: '1px solid #ddd',
-        borderRadius: '4px',
+        padding: '12px 16px',
+        border: '2px solid #e0e0e0',
+        borderRadius: '8px',
         fontSize: '14px',
         boxSizing: 'border-box',
+        transition: 'border-color 0.3s',
+        outline: 'none',
     },
     button: {
         backgroundColor: '#007bff',
         color: 'white',
-        padding: '12px',
+        padding: '14px',
         border: 'none',
-        borderRadius: '4px',
+        borderRadius: '8px',
         fontSize: '16px',
         cursor: 'pointer',
-        fontWeight: '500',
+        fontWeight: '600',
+        transition: 'background-color 0.3s',
+        marginTop: '10px',
+    },
+    footer: {
+        marginTop: '25px',
+        textAlign: 'center',
+    },
+    footerText: {
+        color: '#666',
+        fontSize: '14px',
+        margin: 0,
     },
     link: {
-        textAlign: 'center',
-        marginTop: '20px',
-        color: '#666',
+        color: '#007bff',
+        textDecoration: 'none',
+        fontWeight: '500',
     },
 };
+
+// Add global styles for input focus
+const styleSheet = document.styleSheets[0];
+const inputFocusRule = `
+  input:focus {
+    border-color: #007bff !important;
+  }
+  input:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+  }
+`;
+styleSheet.insertRule(inputFocusRule, styleSheet.cssRules.length);
 
 export default LoginPage;

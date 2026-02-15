@@ -97,9 +97,10 @@ function App() {
                     <Route
                         path="*"
                         element={
-                            <div style={{ textAlign: 'center', marginTop: '50px' }}>
-                                <h1>404 - Page Not Found</h1>
-                                <a href="/dashboard">Go to Dashboard</a>
+                            <div style={styles.notFound}>
+                                <h1>404</h1>
+                                <p>Page Not Found</p>
+                                <a href="/dashboard" style={styles.link}>Go to Dashboard</a>
                             </div>
                         }
                     />
@@ -108,5 +109,23 @@ function App() {
         </Router>
     );
 }
+
+const styles = {
+    notFound: {
+        textAlign: 'center',
+        padding: '100px 20px',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    link: {
+        color: '#007bff',
+        textDecoration: 'none',
+        fontSize: '18px',
+        marginTop: '20px',
+    },
+};
 
 export default App;
